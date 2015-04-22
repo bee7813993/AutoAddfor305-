@@ -29,20 +29,24 @@ public class update305zt_201503 {
 	  private static StringBuffer verificationErrors = new StringBuffer();
 	  private static String myid = "setLoginID";
 	  private static String mypass = "setLoginID";
-	  
+	  private static String webdriverpass = "chromedriver.exe";
 
 	  public static void main(String[] args) {
 		  
 		  if( args.length >= 1 ){
 			  myid = args[0];
 			  if (myid == "-h" || myid == "-help"){
-				  System.out.println("USAGE : <command> [loginID] [loginPassword]");
+				  System.out.println("USAGE : <command> [loginID] [loginPassword] [webdriverpath]");
 				  System.out.println(" loginID : Login ID for My Ymobile. If omitted, use HardCoding value");
 				  System.out.println(" loginPassword : Login Password for My Ymobile. If omitted, use HardCoding value");
+				  System.out.println(" webdriverpath : filename to chromedriver.exe");
 				  System.exit(0);
 			  }
 			  if (args.length >= 2){
 				  mypass = args[1];
+			  }
+			  if (args.length >= 3){
+				  webdriverpass = args[2];
 			  }
 		  }
 
@@ -77,7 +81,7 @@ public class update305zt_201503 {
 	  }
 
 	public static void setUp() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "D:/eclipse/selenium-2.38.0/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", webdriverpass);
 	    driver = new ChromeDriver();
 	    baseUrl = "https://webmy.ymobile.jp/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
