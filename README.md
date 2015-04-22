@@ -16,9 +16,11 @@ Java版 Seleniumで動きます。
 
 環境を整備してコマンドラインから以下のように実行すると動きます。
 
-java -classpath %CLASSPATH% update305zt.update305zt_201503.class [loginID] [loginPassword] [webdriverpath]
+`java -classpath %CLASSPATH% update305zt.update305zt_201503.class [loginID] [loginPassword] [webdriverpath]`
 
 loginID : マイワイモバイルにログインするときのログインID(きっと契約電話番号)
+
 loginPassword : マイワイモバイルにログインするときのパスワード
+
 webdriverpath : chromedriver.exe ファイルのフルパス (省略するとコマンド実行しているディレクトリのchromedriver.exeを使おうとします)
 
