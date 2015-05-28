@@ -33,6 +33,8 @@ public class update305zt_201503 {
 
 	  public static void main(String[] args) {
 		  
+		  boolean ret = true;
+		  
 		  if( args.length >= 1 ){
 			  myid = args[0];
 			  if (myid == "-h" || myid == "-help"){
@@ -63,10 +65,15 @@ public class update305zt_201503 {
 			}
 			  
 			  try {
-				update305zt_201503.testYmobile305zt1();
+				  ret = true;
+				  ret = update305zt_201503.testYmobile305zt1();
 			  }catch (NoSuchElementException e){
-				  sleep(240000);
-				  driver.quit();
+				  	if(ret){
+				  		sleep(240000); // 4 minutes
+				  	}else{
+				  		sleep(2000);
+				  	}
+				  	driver.quit();
 				  continue;
 			  } catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -74,7 +81,11 @@ public class update305zt_201503 {
 				break;
 			  }
 			  	driver.quit();
-			  	sleep(240000); // 4 minutes
+			  	if(ret){
+			  		sleep(240000); // 4 minutes
+			  	}else{
+			  		sleep(2000);
+			  	}
 			  }
 			  
 
@@ -97,6 +108,27 @@ public class update305zt_201503 {
 	    driver.get(baseUrl + "/portal/loginMsn/");
 	    driver.findElement(By.id("msisdn")).clear();
 	    driver.findElement(By.id("msisdn")).sendKeys(myid);
+		 } catch (ElementNotVisibleException e){
+			 System.out.println("おそらくメンテ中。 ElementNotVisibleException word = " + elementwords);
+			 sleep(1000);
+			 driver.get(baseUrl + "/portal/loginMsn/");
+			 driver.close();
+			 return false;
+		 } catch (NoSuchElementException e){
+			 System.out.println("おそらくメンテ中。NoSuchElementException  word = " + elementwords);
+			 sleep(1000);
+			 driver.get(baseUrl + "/portal/loginMsn/");
+			 driver.close();
+			 return true;
+		 } catch(Exception ex) {
+			 System.out.println("おそらくメンテ中。1 word = " + elementwords);
+			 ex.printStackTrace();
+			 sleep(1000);
+			 driver.get(baseUrl + "/portal/loginMsn/");
+			 driver.close();
+			 return true;
+		 }
+	    try {
 	    driver.findElement(By.id("password")).clear();
 	    driver.findElement(By.id("password")).sendKeys(mypass);
 	    driver.findElement(By.id("loginBtn")).click();
@@ -178,7 +210,7 @@ public class update305zt_201503 {
 				 System.out.println("ログアウトボタン無効  word = " + elementwords);
 			 }
 			 driver.close();
-	      return false;
+	      return true;
 	    }
 	    // label=通常速度に戻すお申し込み(１回分予約)
 	    // label=通常速度に戻すお申し込み（1回分即時）
@@ -201,31 +233,36 @@ public class update305zt_201503 {
 	    }
 	    sleep(1000);
 	    try{
-	    driver.findElement(By.cssSelector("img[alt=\"確認\"]")).click();
-	    driver.findElement(By.cssSelector("img[alt=\"登録\"]")).click();
-	    System.out.println(new Date() + ": Success add 500MB");
-	    driver.findElement(By.cssSelector("img[alt=\"戻る\"]")).click();
-	    driver.findElement(By.cssSelector("img[alt=\"次へ\"]")).click();
-	    // ERROR: Caught exception [ERROR: Unsupported command [selectWindow | name=myemobile | ]]
-	    driver.findElement(By.cssSelector("#btnLogout > img")).click();
-	    } catch (NoSuchElementException e) {
-	    	System.out.println("予期せぬ画面遷移が発生しました。3");
-	    	e.printStackTrace();
-	    	sleep(1000);
-	    	driver.findElement(By.cssSelector("#btnLogout > img")).click();
-	    	driver.get(baseUrl + "/portal/loginMsn/");
-	    	return false;
-	    } catch(Exception ex) {
-	    	System.out.println("予期せぬエラーが発生しました。");
-	    	ex.printStackTrace();
-	    	sleep(1000);
-	    	driver.findElement(By.cssSelector("#btnLogout > img")).click();
-	    	driver.get(baseUrl + "/portal/loginMsn/");
-	    	return false;
-	    }finally{
-	    	driver.close();
-	    }
-	    return true;
+	    	elementwords = "img[alt=\"確認\"]";
+	    	driver.findElement(By.cssSelector(elementwords)).click();
+	    	elementwords = "img[alt=\"登録\"]";
+	    	driver.findElement(By.cssSelector(elementwords)).click();
+	    	System.out.println(new Date() + ": Success add 500MB");
+	    	elementwords = "img[alt=\"戻る\"]";
+	    	driver.findElement(By.cssSelector(elementwords)).click();
+	    	elementwords = "img[alt=\"次へ\"]";
+	    	driver.findElement(By.cssSelector(elementwords)).click();
+	    	// ERROR: Caught exception [ERROR: Unsupported command [selectWindow | name=myemobile | ]]
+	    	elementwords = "#btnLogout > img";
+	    	driver.findElement(By.cssSelector(elementwords)).click();
+	    	} catch (NoSuchElementException e) {
+	    		System.out.println("予期せぬ画面遷移が発生しました。3" + elementwords);
+	    		e.printStackTrace();
+	    		sleep(1000);
+	    		driver.findElement(By.cssSelector("#btnLogout > img")).click();
+	    		driver.get(baseUrl + "/portal/loginMsn/");
+	    		return false;
+	    	} catch(Exception ex) {
+	    		System.out.println("予期せぬエラーが発生しました。" + elementwords);
+	    		ex.printStackTrace();
+	    		sleep(1000);
+	    		driver.findElement(By.cssSelector("#btnLogout > img")).click();
+	    		driver.get(baseUrl + "/portal/loginMsn/");
+	    		return false;
+	    	}finally{
+	    		driver.close();
+	    	}
+	    return false;
 	    }
 
 	    
